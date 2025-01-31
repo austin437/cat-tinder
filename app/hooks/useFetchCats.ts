@@ -9,7 +9,6 @@ const useFetchCats = () => {
                 return res.json();
             })
             .then((data) => {
-                console.log(data);
                 setCats(data);
             });
     }, []);
