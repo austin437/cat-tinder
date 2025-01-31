@@ -5,12 +5,15 @@ import LikeButton from '@app/components/LikeButton';
 import Navbar from '@app/components/Navbar';
 import React from 'react';
 import { ActivityIndicator, Dimensions, Image, StyleSheet, View } from 'react-native';
+import usePostVotes, { Payload } from '@app/hooks/usePostVotes';
 
 type Props = {
     cat: Cat;
 }
 
 const CatProfile = ({ cat }: Props) => {
+    const { postVote } = usePostVotes();
+
     if (!cat) {
         return <ActivityIndicator size={'large'} />;
     }
@@ -20,6 +23,15 @@ const CatProfile = ({ cat }: Props) => {
     const IMAGE_HEIGHT = cat.height;
     const RATIO = IMAGE_WIDTH / IMAGE_HEIGHT;
     const { name, affection_level, origin } = cat.breeds[0];
+    const likePayload: Payload = {
+        image_id: cat.id,
+        sub_id: 'my-user-sub',
+        value: 1,
+    };
+
+    const handleLike = async () => {
+        await postVote(likePayload);
+    };
 
     return <View style={[styles.root]}>
         <View style={[styles.favouriteButtonContainer]}>
@@ -39,7 +51,7 @@ const CatProfile = ({ cat }: Props) => {
         </View>
         <View style={[styles.buttonContainer]}>
             <DislikeButton onPress={() => console.log('dislike!')} />
-            <LikeButton onPress={() => console.log('like!')} />
+            <LikeButton onPress={handleLike} />
         </View>
         <View style={[styles.navBarContainer]}>
             <Navbar id={cat.id} />
