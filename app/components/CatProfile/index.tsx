@@ -52,6 +52,8 @@ const styles = StyleSheet.create({
         padding: 0,
     },
     favouriteButtonContainer: {
+        flexDirection: 'row',
+        justifyContent: 'center',
         marginVertical: 10,
     },
     imageContainer: {
