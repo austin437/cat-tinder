@@ -39,8 +39,8 @@ const CatProfile = ({ cat }: Props) => {
             </View>
         </View>
         <View style={[styles.buttonContainer]}>
-            <DislikeButton />
-            <LikeButton />
+            <DislikeButton onPress={() => console.log('dislike!')} />
+            <LikeButton onPress={() => console.log('like!')} />
         </View>
         <View style={[styles.navBarContainer]}>
             <Navbar />
@@ -56,6 +56,7 @@ const styles = StyleSheet.create({
         marginVertical: 10,
     },
     imageContainer: {
+        backgroundColor: '#ddd',
         height: 446,
         width: '100%',
         borderRadius: 16,

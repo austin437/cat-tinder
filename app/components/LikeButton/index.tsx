@@ -1,22 +1,29 @@
+import { HeartIcon } from '@app/components/Icons';
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { StyleSheet, TouchableOpacity, View } from 'react-native';
 
-const LikeButton = () => {
-    return <View style={[styles.root]}>
-        <Text>H</Text>
-    </View>;
+type Props = {
+    onPress: GestureEvent;
+}
+
+const LikeButton = ({ onPress }: Props) => {
+    return <TouchableOpacity onPress={onPress}>
+        <View style={[styles.root]}>
+            <HeartIcon size={32} color={'#6BD88E'} />
+        </View>
+    </TouchableOpacity>;
 };
 
 const styles = StyleSheet.create({
     root: {
         display: 'flex',
-        alignSelf: 'flex-start',
-        padding: 5,
+        justifyContent: 'center',
+        alignItems: 'center',
         margin: 10,
-        backgroundColor: 'green',
+        backgroundColor: '#FFF',
         borderRadius: '50%',
-        width: 30,
-        height: 30,
+        width: 54,
+        height: 54,
     },
 });
 

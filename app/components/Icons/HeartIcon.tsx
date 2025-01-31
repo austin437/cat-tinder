@@ -2,8 +2,8 @@ import React from 'react';
 
 import HeartSvg from '@app/assets/icons/heart.svg';
 
-const HeartIcon = ({ color }: { color: string }) => (
-    <HeartSvg color={color} />
+const HeartIcon = ({ color, size }: Icon) => (
+    <HeartSvg color={color} width={size} height={size} />
 );
 
 

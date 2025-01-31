@@ -2,8 +2,8 @@ import React from 'react';
 
 import CloseSvg from '@app/assets/icons/close.svg';
 
-const CloseIcon = ({ color }: { color: string }) => (
-    <CloseSvg color={color} />
+const CloseIcon = ({ color, size }: Icon) => (
+    <CloseSvg color={color} width={size} height={size} />
 );
 
 
