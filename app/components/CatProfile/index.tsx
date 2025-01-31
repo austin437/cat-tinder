@@ -3,17 +3,28 @@ import DislikeButton from '@app/components/DislikeButton';
 import FavouriteButton from '@app/components/FavouriteButton';
 import LikeButton from '@app/components/LikeButton';
 import Navbar from '@app/components/Navbar';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { ActivityIndicator, Dimensions, Image, StyleSheet, View } from 'react-native';
 import usePostVotes, { Payload } from '@app/hooks/usePostVotes';
+import SlideOutView from '@app/components/SlideOutView';
 
 type Props = {
     cat: Cat;
-    goToNextCat: () => void
+    like: () => void,
+    dislike: () => void,
 }
 
-const CatProfile = ({ cat, goToNextCat }: Props) => {
+const CatProfile = ({ cat, like, dislike }: Props) => {
     const { postVote } = usePostVotes();
+    const [direction, setDirection] = useState<null | 'left' | 'right'>(null);
+
+    useEffect(() => {
+        if (cat) {
+            setTimeout(() => {
+                setDirection(null);
+            }, 250);
+        }
+    }, [cat]);
 
     if (!cat) {
         return <ActivityIndicator size={'large'} />;
@@ -31,38 +42,42 @@ const CatProfile = ({ cat, goToNextCat }: Props) => {
     };
 
     const handleLike = async () => {
+        setDirection('right');
         await postVote(likePayload);
-        goToNextCat();
+        like();
     };
 
     const handleDislike = async () => {
-        goToNextCat();
+        setDirection('left');
+        dislike();
     };
 
-    return <View style={[styles.root]}>
-        <View style={[styles.favouriteButtonContainer]}>
-            <FavouriteButton />
-        </View>
-        <View style={[styles.imageContainer]}>
-            <Image
-                style={[styles.image, { width: WINDOW_WIDTH, height: WINDOW_WIDTH * RATIO }]}
-                source={{
-                    uri: cat.url,
-                }}
-                resizeMode="cover"
-            />
-            <View style={[styles.catDescriptionContainer]}>
-                <CatDescription name={name} affectionLevel={affection_level} country={origin} />
+    return <SlideOutView direction={direction}>
+        <View style={[styles.root]}>
+            <View style={[styles.favouriteButtonContainer]}>
+                <FavouriteButton />
+            </View>
+            <View style={[styles.imageContainer]}>
+                <Image
+                    style={[styles.image, { width: WINDOW_WIDTH, height: WINDOW_WIDTH * RATIO }]}
+                    source={{
+                        uri: cat.url,
+                    }}
+                    resizeMode="cover"
+                />
+                <View style={[styles.catDescriptionContainer]}>
+                    <CatDescription name={name} affectionLevel={affection_level} country={origin} />
+                </View>
+            </View>
+            <View style={[styles.buttonContainer]}>
+                <DislikeButton onPress={handleDislike} />
+                <LikeButton onPress={handleLike} />
+            </View>
+            <View style={[styles.navBarContainer]}>
+                <Navbar id={cat.id} />
             </View>
         </View>
-        <View style={[styles.buttonContainer]}>
-            <DislikeButton onPress={handleDislike} />
-            <LikeButton onPress={handleLike} />
-        </View>
-        <View style={[styles.navBarContainer]}>
-            <Navbar id={cat.id} />
-        </View>
-    </View>;
+    </SlideOutView>;
 };
 
 const styles = StyleSheet.create({
