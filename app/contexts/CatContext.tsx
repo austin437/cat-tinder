@@ -1,10 +1,11 @@
 import { useFetchCats } from '@app/hooks';
-import React, { createContext } from 'react';
+import React, { createContext, Dispatch, SetStateAction, useEffect, useState } from 'react';
 
-const initContext = { cats: [] };
+const initContext = { cats: [], setCats: () => {} };
 
 export const CatContext = createContext<{
   cats: Cat[];
+  setCats: Dispatch<SetStateAction<Cat[]>>;
 }>(initContext);
 
 type Props = {
@@ -12,7 +13,14 @@ type Props = {
 };
 
 export const CatProvider: React.FC<Props> = ({ children }) => {
-   const { cats } = useFetchCats();
+  const [cats, setCats] = useState<Cat[]>([]);
+  const { cats: fetchedCats } = useFetchCats();
 
-  return <CatContext.Provider value={{cats: cats}}>{children}</CatContext.Provider>;
+  useEffect(() => {
+    if (fetchedCats.length > 0) {
+      setCats(fetchedCats);
+    }
+  }, [fetchedCats]);
+
+  return <CatContext.Provider value={{ cats: cats, setCats: setCats }}>{children}</CatContext.Provider>;
 };

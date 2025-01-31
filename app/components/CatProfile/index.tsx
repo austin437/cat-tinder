@@ -9,9 +9,10 @@ import usePostVotes, { Payload } from '@app/hooks/usePostVotes';
 
 type Props = {
     cat: Cat;
+    goToNextCat: () => void
 }
 
-const CatProfile = ({ cat }: Props) => {
+const CatProfile = ({ cat, goToNextCat }: Props) => {
     const { postVote } = usePostVotes();
 
     if (!cat) {
@@ -31,6 +32,11 @@ const CatProfile = ({ cat }: Props) => {
 
     const handleLike = async () => {
         await postVote(likePayload);
+        goToNextCat();
+    };
+
+    const handleDislike = async () => {
+        goToNextCat();
     };
 
     return <View style={[styles.root]}>
@@ -43,14 +49,14 @@ const CatProfile = ({ cat }: Props) => {
                 source={{
                     uri: cat.url,
                 }}
-                resizeMode="contain"
+                resizeMode="cover"
             />
             <View style={[styles.catDescriptionContainer]}>
                 <CatDescription name={name} affectionLevel={affection_level} country={origin} />
             </View>
         </View>
         <View style={[styles.buttonContainer]}>
-            <DislikeButton onPress={() => console.log('dislike!')} />
+            <DislikeButton onPress={handleDislike} />
             <LikeButton onPress={handleLike} />
         </View>
         <View style={[styles.navBarContainer]}>
