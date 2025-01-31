@@ -1,7 +1,7 @@
 import CatProfile from '@app/components/CatProfile';
 import { CatContext } from '@app/contexts/CatContext';
 import React, { useContext } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { ActivityIndicator, StyleSheet, View } from 'react-native';
 
 const LikeableCats = () => {
     const { cats, setCats } = useContext(CatContext);
@@ -15,6 +15,12 @@ const LikeableCats = () => {
         const updatedCats = cats.slice(1);
         setCats(updatedCats);
     };
+
+    if (cats.length === 0) {
+        return <View style={[styles.activityIndicatorContainer]}>
+            <ActivityIndicator size={'large'} />
+        </View>;
+    }
 
     return <View style={[styles.root]}>
         <View style={[styles.cardContainer]}>
@@ -30,6 +36,11 @@ const styles = StyleSheet.create({
     },
     cardContainer: {
         position: 'absolute',
+    },
+    activityIndicatorContainer: {
+        height: '100%',
+        justifyContent: 'center',
+        alignItems: 'center',
     },
 });
 

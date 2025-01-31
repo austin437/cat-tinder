@@ -3,10 +3,10 @@ import DislikeButton from '@app/components/DislikeButton';
 import FavouriteButton from '@app/components/FavouriteButton';
 import LikeButton from '@app/components/LikeButton';
 import Navbar from '@app/components/Navbar';
-import React, { useEffect, useState } from 'react';
-import { ActivityIndicator, Dimensions, Image, StyleSheet, View } from 'react-native';
-import usePostVotes, { Payload } from '@app/hooks/usePostVotes';
 import SlideOutView from '@app/components/SlideOutView';
+import usePostVotes, { Payload } from '@app/hooks/usePostVotes';
+import React, { useEffect, useState } from 'react';
+import { Dimensions, Image, StyleSheet, View } from 'react-native';
 
 type Props = {
     cat: Cat;
@@ -27,7 +27,7 @@ const CatProfile = ({ cat, like, dislike }: Props) => {
     }, [cat]);
 
     if (!cat) {
-        return <ActivityIndicator size={'large'} />;
+        return null;
     }
 
     const WINDOW_WIDTH = Dimensions.get('window').width - 40;
