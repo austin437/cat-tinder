@@ -11,7 +11,6 @@ type Props = {
 }
 
 const CatProfile = ({ cat }: Props) => {
-
     if (!cat) {
         return <ActivityIndicator size={'large'} />;
     }
@@ -43,7 +42,7 @@ const CatProfile = ({ cat }: Props) => {
             <LikeButton onPress={() => console.log('like!')} />
         </View>
         <View style={[styles.navBarContainer]}>
-            <Navbar />
+            <Navbar id={cat.id} />
         </View>
     </View>;
 };

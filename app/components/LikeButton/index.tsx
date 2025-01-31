@@ -19,11 +19,19 @@ const styles = StyleSheet.create({
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        margin: 10,
+        marginVertical: 5,
+        marginHorizontal: 10,
         backgroundColor: '#FFF',
         borderRadius: '50%',
         width: 54,
         height: 54,
+        shadowColor: '#000',
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
     },
 });
 
