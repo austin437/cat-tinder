@@ -5,9 +5,9 @@ import {useFetchCats} from '@app/hooks';
 const LikeableCats = () => {
     const { cats } = useFetchCats();
 
-    useEffect(() => console.log('likable cats', cats), [cats]);
+    useEffect(() => console.log('likable cats', JSON.stringify(cats[0])), [cats]);
 
-    return <CatProfile />;
+    return <CatProfile cat={cats[0]}/>;
 };
 
 export default LikeableCats;

@@ -1,8 +1,12 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
-const CatProfile = () => {
+type Props = {
+    cat: Cat;
+}
 
+const CatProfile = ({cat}: Props) => {
+    console.log(cat);
     return <View style={[styles.root]}>
         <Text>Cat Profile</Text>
     </View>;
