@@ -12,7 +12,7 @@ const LikeableCats = () => {
     };
 
     return <View style={[styles.root]}>
-        <CatProfile cat={cats[0]} goToNextCat={goToNextCat} />;
+        <CatProfile cat={cats[0]} goToNextCat={goToNextCat} />
     </View>;
 };
 
