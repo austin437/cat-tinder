@@ -7,7 +7,7 @@ const LikeableCats = () => {
     const { cats } = useContext(CatContext);
     const [page, setPage] = useState<number>(1);
     const [offset, setOffset] = useState<number>(0);
-    const PAGE_SIZE = 20;
+    const PAGE_SIZE = 25;
 
     const currentCats = useMemo(() => {
         const start = (page * PAGE_SIZE) - offset;
@@ -56,6 +56,7 @@ const styles = StyleSheet.create({
     },
     cardContainer: {
         position: 'absolute',
+        left: 0, right: 0, top: 0, bottom: 0,
     },
     activityIndicatorContainer: {
         height: '100%',

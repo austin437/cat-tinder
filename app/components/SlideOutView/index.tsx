@@ -26,7 +26,9 @@ const SlideOutView: React.FC<SlideOutViewProps> = ({ direction, onAnimationEnd, 
 
   return (
     <Animated.View
+      // eslint-disable-next-line react-native/no-inline-styles
       style={{
+        padding: 20,
         ...style,
         transform: [{ translateX: animated }],
       }}>

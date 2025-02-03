@@ -25,12 +25,12 @@ const styles = StyleSheet.create({
         borderRadius: '50%',
         width: 54,
         height: 54,
-        shadowColor: '#000000',
+        shadowColor: '#ddd',
         shadowOffset: {
-            width: 0,
-            height: 0,
+            width: 3,
+            height: 3,
         },
-        shadowOpacity: 0.05,
+        shadowOpacity: 0.2,
         shadowRadius: 3.84,
     },
 });
