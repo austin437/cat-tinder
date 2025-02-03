@@ -1,20 +1,37 @@
 import CatProfile from '@app/components/CatProfile';
 import { CatContext } from '@app/contexts/CatContext';
-import React, { useContext } from 'react';
+import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { ActivityIndicator, StyleSheet, View } from 'react-native';
 
 const LikeableCats = () => {
-    const { cats, setCats } = useContext(CatContext);
+    const { cats } = useContext(CatContext);
+    const [page, setPage] = useState<number>(1);
+    const [offset, setOffset] = useState<number>(0);
+    const PAGE_SIZE = 20;
+
+    const currentCats = useMemo(() => {
+        const start = (page * PAGE_SIZE) - offset;
+        const end = start + PAGE_SIZE;
+        return cats.slice(start, end);
+    }, [cats, offset, page]);
 
     const like = () => {
-        const updatedCats = cats.slice(1);
-        setCats(updatedCats);
+        setOffset((val) => val + 1);
     };
 
     const dislike = () => {
-        const updatedCats = cats.slice(1);
-        setCats(updatedCats);
+        setOffset((val) => val + 1);
     };
+
+    const onCurrentCatsEmpty = useCallback(() => {
+        if (cats.length > 0 && currentCats.length === 0) {
+            setPage(val => val + 1);
+        }
+    }, [cats.length, currentCats.length]);
+
+    useEffect(() => {
+        onCurrentCatsEmpty();
+    }, [onCurrentCatsEmpty]);
 
     if (cats.length === 0) {
         return <View style={[styles.activityIndicatorContainer]}>
@@ -23,10 +40,13 @@ const LikeableCats = () => {
     }
 
     return <View style={[styles.root]}>
-        <View style={[styles.cardContainer]}>
-            <CatProfile cat={cats[1]} like={like} dislike={dislike} />
-        </View>
-        <CatProfile cat={cats[0]} like={like} dislike={dislike} />
+        {
+            currentCats.map((val) => {
+                return <View key={val.id} style={[styles.cardContainer]}>
+                    <CatProfile cat={val} like={like} dislike={dislike} />
+                </View>;
+            })
+        }
     </View>;
 };
 

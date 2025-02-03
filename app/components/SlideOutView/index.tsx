@@ -1,19 +1,20 @@
 import React from 'react';
 import { PropsWithChildren, useEffect } from 'react';
-import { ViewStyle, useAnimatedValue, Animated } from 'react-native';
+import { ViewStyle, useAnimatedValue, Animated, Easing } from 'react-native';
 
-type SlideOutViewProps = PropsWithChildren<{direction: null | 'left' | 'right', style?: ViewStyle}>;
+type SlideOutViewProps = PropsWithChildren<{ direction: null | 'left' | 'right', onAnimationEnd: Function, style?: ViewStyle }>;
 
-const SlideOutView: React.FC<SlideOutViewProps> = ({direction, style, children}) => {
+const SlideOutView: React.FC<SlideOutViewProps> = ({ direction, onAnimationEnd, style, children }) => {
   const animated = useAnimatedValue(0);
 
   useEffect(() => {
-    if(direction) {
+    if (direction) {
       Animated.timing(animated, {
         toValue: direction === 'left' ? -500 : 500,
-        duration: 300,
+        duration: 250,
+        easing: Easing.inOut(Easing.quad),
         useNativeDriver: true,
-      }).start();
+      }).start(() => onAnimationEnd());
     } else {
       Animated.timing(animated, {
         toValue: 0,
@@ -21,13 +22,13 @@ const SlideOutView: React.FC<SlideOutViewProps> = ({direction, style, children})
         useNativeDriver: true,
       }).start();
     }
-  }, [animated, direction]);
+  }, [animated, direction, onAnimationEnd]);
 
   return (
     <Animated.View
       style={{
         ...style,
-        transform: [{translateX: animated}],
+        transform: [{ translateX: animated }],
       }}>
       {children}
     </Animated.View>

@@ -64,12 +64,12 @@ const styles = StyleSheet.create({
         borderRadius: 25,
         width: 156,
         height: 44,
-        shadowColor: '#000',
+        shadowColor: '#000000',
         shadowOffset: {
             width: 0,
-            height: 2,
+            height: 0,
         },
-        shadowOpacity: 0.25,
+        shadowOpacity: 0.05,
         shadowRadius: 3.84,
     },
 });

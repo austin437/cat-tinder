@@ -5,7 +5,7 @@ import LikeButton from '@app/components/LikeButton';
 import Navbar from '@app/components/Navbar';
 import SlideOutView from '@app/components/SlideOutView';
 import usePostVotes, { Payload } from '@app/hooks/usePostVotes';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Dimensions, Image, StyleSheet, View } from 'react-native';
 
 type Props = {
@@ -17,6 +17,14 @@ type Props = {
 const CatProfile = ({ cat, like, dislike }: Props) => {
     const { postVote } = usePostVotes();
     const [direction, setDirection] = useState<null | 'left' | 'right'>(null);
+
+    const onAnimationEnd = useCallback(() => {
+        if(direction === 'left') {
+            dislike();
+        } else if(direction === 'right') {
+            like();
+        }
+    }, [direction, dislike, like]);
 
     useEffect(() => {
         if (cat) {
@@ -44,15 +52,13 @@ const CatProfile = ({ cat, like, dislike }: Props) => {
     const handleLike = async () => {
         setDirection('right');
         await postVote(likePayload);
-        like();
     };
 
     const handleDislike = async () => {
         setDirection('left');
-        dislike();
     };
 
-    return <SlideOutView direction={direction}>
+    return <SlideOutView direction={direction} onAnimationEnd={onAnimationEnd}>
         <View style={[styles.root]}>
             <View style={[styles.favouriteButtonContainer]}>
                 <FavouriteButton />
